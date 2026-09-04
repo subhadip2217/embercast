@@ -84,7 +84,7 @@ make -C engine
 
 ```bash
 make -C engine wasm WASI=/path/to/wasi-sdk
-# writes public/engine.wasm — 16 MB linear memory, exported C API
+# writes engine/embercast.wasm — 16 MB linear memory, exported C API
 ```
 
 The WASM module imports nothing. JavaScript calls `engine_init`, `engine_tick`,

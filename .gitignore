@@ -1,5 +1,5 @@
 embercast
+embercast.wasm
 *.o
 *.ppm
-*.png
 .DS_Store

@@ -348,8 +348,19 @@ static void build_world(unsigned seed) {
         }
         if (found) break;
     }
-    yaw = 0.f;
+    yaw = PI;
     pitch = 0.f;
+    {
+        int k;
+        float tries[4] = { PI, PI * 0.5f, 0.f, -PI * 0.5f };
+        for (k = 0; k < 4; k++) {
+            float fx = -esin(tries[k]), fy = -ecos(tries[k]);
+            if (open_cell((int)(px + fx * 1.1f), (int)(py + fy * 1.1f))) {
+                yaw = tries[k];
+                break;
+            }
+        }
+    }
 
     /* farthest open cell becomes the core */
     {
@@ -465,10 +476,10 @@ static void draw_world(void) {
             u32 c;
             if (p < 0) {
                 c = tex[6][ty * TEX + tx];
-                c = shade(c, 0.35f * flicker);
+                c = shade(c, 0.55f * flicker);
             } else {
                 c = tex[3][ty * TEX + tx];
-                c = shade(c, 0.55f * flicker);
+                c = shade(c, 0.78f * flicker);
                 if (world[my < 0 ? 0 : (my >= MAP ? MAP - 1 : my)]
                          [mx < 0 ? 0 : (mx >= MAP ? MAP - 1 : mx)] == 0) {
                     /* ember veins on floor near lava walls */
@@ -520,7 +531,7 @@ static void draw_world(void) {
             int ti = tile - 1;
             if (ti < 0) ti = 0; if (ti >= TEXN) ti = 0;
             float fog = eclampf((dist - 1.f) / 16.f, 0.f, 1.f);
-            float lit = (side ? 0.72f : 1.f) * flicker / (1.f + dist * 0.07f);
+            float lit = (side ? 0.82f : 1.05f) * flicker / (1.f + dist * 0.045f);
             int yy;
             if (y0 < 0) y0 = 0;
             if (y1 > EC_HEIGHT) y1 = EC_HEIGHT;
