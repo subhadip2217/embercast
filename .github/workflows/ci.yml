@@ -1,0 +1,14 @@
+name: native
+on:
+  push:
+  pull_request:
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          gcc -O3 -ffast-math -std=c11 -o embercast engine/embercast.c engine/native_main.c -lm
+          ./embercast --selftest
+          ./embercast
